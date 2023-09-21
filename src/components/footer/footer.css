@@ -1,0 +1,14 @@
+.footer {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    font-size: 20px;
+    padding: 1rem;
+  
+  }
+
+@media screen and (max-width: 768px) {
+  .footer{
+    font-size: 10px;
+    padding: 1rem;
+  }
+}
