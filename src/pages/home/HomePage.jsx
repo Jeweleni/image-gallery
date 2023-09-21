@@ -1,6 +1,5 @@
 import NavBar from '../../components/navbar/NavBar';
 import { Link } from 'react-router-dom';
-import Footer from '../../components/footer/Footer'
 
 import './home.css'
 
@@ -17,7 +16,6 @@ const HomePage = () => {
       <button>
         <Link to="/login" className="button"> View Gallery </Link>
       </button>
-      <Footer/>
     </div>
     </div>
   )

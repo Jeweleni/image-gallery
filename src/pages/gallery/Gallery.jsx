@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-// import { useDrag, useDrop } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 import styled from 'styled-components';
-import { imageData } from "../../components/imageData";
+import PropTypes from 'prop-types';
 
 const Spinner = styled.div`
   border: 4px solid rgba(255, 255, 255, 0.3);
@@ -53,13 +53,24 @@ const GalleryItem = ({ image, index, moveImage }) => {
   );
 };
 
+// Define prop types for GalleryItem
+GalleryItem.propTypes = {
+  image: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  moveImage: PropTypes.func.isRequired,
+};
+
 const Gallery = ({ imageData }) => {
   const [images, setImages] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setImages(imageData)
+    setImages(imageData);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -93,11 +104,10 @@ const Gallery = ({ imageData }) => {
       ) : (
         <div className="gallery-grid">
           {images
-            .filter(image =>
-              image.tags.some(tag => tag.includes(searchQuery.toLowerCase()))
+            .filter((image) =>
+              image.tags.some((tag) => tag.includes(searchQuery.toLowerCase()))
             )
             .map((image, index) => (
-              // eslint-disable-next-line react/jsx-no-undef
               <GalleryItem
                 key={image.id}
                 image={image}
@@ -111,4 +121,16 @@ const Gallery = ({ imageData }) => {
   );
 };
 
+// Define prop types for Gallery
+Gallery.propTypes = {
+  imageData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      src: PropTypes.string.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    })
+  ).isRequired,
+};
+
 export default Gallery;
+

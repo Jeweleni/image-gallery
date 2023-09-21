@@ -1,30 +1,17 @@
 import { useState, useEffect } from 'react';
-import './login.css'
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-// import { initializeApp } from 'firebase/app';
-import Gallery from '../gallery/Gallery';
-import { initializeApp } from "firebase/app";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { useNavigate } from 'react-router-dom';
+import Gallery from '../gallery/Gallery';
+import app from './firebaseConfig'
 
-
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyAM-F4pciMf_WxjxVbgJQhio_OUPJNp4E0",
-      authDomain: "imagesite-91298.firebaseapp.com",
-      projectId: "imagesite-91298",
-      storageBucket: "imagesite-91298.appspot.com",
-      messagingSenderId: "32062178803",
-      appId: "1:32062178803:web:fc2d4fc32c4d76de537e86"
-    };
-
-    const app = initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
+    const auth = getAuth(app); // Use Firebase configuration from imported app
 
     onAuthStateChanged(auth, (user) => {
       setAuthenticated(!!user);
@@ -33,7 +20,7 @@ const Login = ({ onLogin }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,9 +30,10 @@ const Login = ({ onLogin }) => {
 
       await signInWithEmailAndPassword(auth, email, password);
 
-      onLogin(true);
+      setAuthenticated(true);
+      navigate('/gallery');
     } catch (error) {
-      setError(true)
+      setError(true);
     }
   };
 
